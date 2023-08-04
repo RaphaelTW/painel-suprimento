@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import ItemPanel from "./components/ItemPanel";
+// import ItemPanel from "./components/ItemPanel";
 import ReadItems from "./components/ReadItems";
 import Modal from "react-modal";
 import "./App.css";
