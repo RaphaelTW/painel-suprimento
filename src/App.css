@@ -1,6 +1,11 @@
 .App {
   text-align: center;
 }
+.body {
+  padding: 8px;
+  background-color: #ffc24f;
+  border-radius: 2px;
+}
 
 .App-logo {
   height: 40vmin;
@@ -26,6 +31,10 @@
 
 .App-link {
   color: #61dafb;
+}
+
+.btn-modal {
+  margin-top: 40px;
 }
 
 @keyframes App-logo-spin {
