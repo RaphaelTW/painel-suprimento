@@ -56,6 +56,13 @@ function App() {
     fetchColetas();
   }, []);
 
+  const handleSendToHistorico = () => {
+    setHistorico([...historico, selectedItem]);
+    const updatedItems = items.filter((i) => i !== selectedItem);
+    setItems(updatedItems);
+    setIsModalOpen(false); // Fechar o modal depois de enviar para o histórico
+  };
+
   return (
     <Router>
       <div className='container'>
@@ -95,7 +102,6 @@ function App() {
           </tbody>
         </table>
       </div>
-      <Routes>{/* Adicione suas rotas aqui */}</Routes>
 
       {/* Modal para Descrever e Enviar para Lidos */}
       <Modal
@@ -149,10 +155,7 @@ function App() {
               <>
                 <button
                   className='btn btn-primary me-2'
-                  onClick={() => {
-                    handleAddItem({ ...selectedItem, ...itemDescription });
-                    handleModalClose();
-                  }}
+                  onClick={handleSendToHistorico}
                 >
                   Enviar para Lidos
                 </button>
@@ -192,12 +195,11 @@ function App() {
             {historico.map((item, index) => (
               <div key={index}>
                 <p>
-                  <strong>Item:</strong> {item.item}
+                  <strong>Item:</strong> {item.id}
                 </p>
                 <p>
-                  <strong>Kg:</strong> {item.kl}
+                  <strong>Kg:</strong> {item.taxed_weight}
                 </p>
-                {/* E outras informações que você queira mostrar */}
               </div>
             ))}
           </div>
