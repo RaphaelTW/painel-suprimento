@@ -6,7 +6,9 @@ import "./App.css";
 function App() {
   const fetchColetas = async () => {
     try {
-      const response = await fetch("http://localhost/painel-suprimentos/api/get_coletas.php");
+      const response = await fetch(
+        "http://localhost/painel-suprimentos/api/get_coletas.php"
+      );
       const data = await response.json();
       setItems(data);
     } catch (error) {
@@ -146,14 +148,6 @@ function App() {
             >
               Enviar para Lidos
             </button>
-            <button
-              className='btn btn-secondary me-2'
-              onClick={() => {
-                handleAddToHistorico(itemDescription);
-              }}
-            >
-              Histórico
-            </button>
             <button className='btn btn-danger' onClick={handleModalClose}>
               Fechar
             </button>
@@ -196,11 +190,6 @@ function App() {
                 {/* E outras informações que você queira mostrar */}
               </div>
             ))}
-          </div>
-          <div className='modal-footer my-2'>
-            <button className='btn btn-primary' onClick={handleCloseHistorico}>
-              Fechar
-            </button>
           </div>
         </div>
       </Modal>
