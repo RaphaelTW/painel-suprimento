@@ -21,13 +21,15 @@ function App() {
   const [itemDescription, setItemDescription] = useState("");
   const [historico, setHistorico] = useState([]);
   const [showHistoricoModal, setShowHistoricoModal] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
 
   const handleAddItem = (item) => {
     setItems([...items, item]);
   };
 
   const handleItemDescription = (item) => {
-    setItemDescription(item);
+    setSelectedItem(item);
+    setItemDescription({ description: "" }); // Limpar a descrição quando abrir o modal
     setIsModalOpen(true);
   };
 
@@ -39,7 +41,7 @@ function App() {
     setHistorico([...historico, item]);
     const updatedItems = items.filter((i) => i !== item);
     setItems(updatedItems);
-    setIsModalOpen(false);
+    setIsModalOpen(false); // Fechar o modal depois de enviar para o histórico
   };
 
   const handleShowHistorico = () => {
@@ -121,36 +123,44 @@ function App() {
             ></button>
           </div>
           <div className='modal-body'>
-            <p>
-              <strong>Item:</strong> {itemDescription.item}
-            </p>
-            <p>
-              <strong>Kg:</strong> {itemDescription.kl}
-            </p>
-            <textarea
-              className='form-control'
-              value={itemDescription.description || ""}
-              onChange={(e) =>
-                setItemDescription({
-                  ...itemDescription,
-                  description: e.target.value,
-                })
-              }
-            />
+            {selectedItem && (
+              <>
+                <p>
+                  <strong>Item:</strong> {selectedItem.id}
+                </p>
+                <p>
+                  <strong>Kg:</strong> {selectedItem.taxed_weight}
+                </p>
+                <textarea
+                  className='form-control'
+                  value={itemDescription.description || ""}
+                  onChange={(e) =>
+                    setItemDescription({
+                      ...itemDescription,
+                      description: e.target.value,
+                    })
+                  }
+                />
+              </>
+            )}
           </div>
           <div className='modal-footer my-2'>
-            <button
-              className='btn btn-primary me-2'
-              onClick={() => {
-                handleAddItem(itemDescription);
-                handleModalClose();
-              }}
-            >
-              Enviar para Lidos
-            </button>
-            <button className='btn btn-danger' onClick={handleModalClose}>
-              Fechar
-            </button>
+            {selectedItem && (
+              <>
+                <button
+                  className='btn btn-primary me-2'
+                  onClick={() => {
+                    handleAddItem({ ...selectedItem, ...itemDescription });
+                    handleModalClose();
+                  }}
+                >
+                  Enviar para Lidos
+                </button>
+                <button className='btn btn-danger' onClick={handleModalClose}>
+                  Fechar
+                </button>
+              </>
+            )}
           </div>
         </div>
       </Modal>
