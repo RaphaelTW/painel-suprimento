@@ -105,7 +105,7 @@ function App() {
         </div>
       </div>
 
-      {/* Modal para Descrever e Enviar para Lidos */}
+      {/* Modal para Descrever e Enviar para "Lidos/Histórico" */}
       <Modal
         isOpen={isModalOpen}
         onRequestClose={handleModalClose}

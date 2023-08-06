@@ -1,5 +1,7 @@
 <?php
+// Usar o horário local nosso
 date_default_timezone_set("America/Sao_Paulo");
+
 header("Access-Control-Allow-Origin: *");
 
 // Configurações de conexão com o banco de dados
