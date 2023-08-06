@@ -66,41 +66,43 @@ function App() {
   return (
     <Router>
       <div className='container'>
-        <h2 className='my-4'>Painel Suprimentos</h2>
+        <h1 className='my-4'>Painel Suprimentos</h1>
         <button className='btn btn-primary' onClick={handleShowHistorico}>
           Histórico
         </button>
-        <table className='table table-striped'>
-          <thead>
-            <tr>
-              <th>
-                <strong>Item</strong>
-              </th>
-              <th>
-                <strong>Kg</strong>
-              </th>
-              <th>
-                <strong>Ação</strong>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {items.map((data) => (
-              <tr key={data.id}>
-                <td>{data.id}</td>
-                <td>{data.taxed_weight}</td>
-                <td>
-                  <button
-                    className='btn btn-primary'
-                    onClick={() => handleItemDescription(data)}
-                  >
-                    <i className='bi bi-eye'></i>
-                  </button>
-                </td>
+        <div className='row table-responsive custom-table-responsive'>
+          <table className='table table-hover custom-table custom-table-responsive'>
+            <thead>
+              <tr>
+                <th class='negrito' scope='col'>
+                  <strong>Item</strong>
+                </th>
+                <th class='negrito' scope='col'>
+                  <strong>Kg</strong>
+                </th>
+                <th class='negrito' scope='col'>
+                  <strong>Ação</strong>
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {items.map((data) => (
+                <tr className='houveTD' key={data.id}>
+                  <td>{data.id}</td>
+                  <td>{data.taxed_weight}</td>
+                  <td>
+                    <button
+                      className='btn btn-primary'
+                      onClick={() => handleItemDescription(data)}
+                    >
+                      <i className='bi bi-eye'></i>
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {/* Modal para Descrever e Enviar para Lidos */}
