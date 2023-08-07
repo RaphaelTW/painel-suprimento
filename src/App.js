@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Modal from "react-modal";
+import * as XLSX from "xlsx";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 import "./App.css";
 
 function App() {
@@ -56,6 +59,26 @@ function App() {
     setShowHistoricoModal(false);
   };
 
+  const handleGenerateExcel = () => {
+    const worksheet = XLSX.utils.json_to_sheet(historico);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Historico");
+    XLSX.writeFile(workbook, "historico.xlsx");
+  };
+
+  const handleGeneratePDF = () => {
+    const doc = new jsPDF();
+    const tableData = [];
+    historico.forEach((item) => {
+      tableData.push([item.sequence_code, item.taxed_weight, item.description]);
+    });
+    doc.autoTable({
+      head: [["Número Coleta", "Kg", "Descrição"]],
+      body: tableData,
+    });
+    doc.save("historico.pdf");
+  };
+
   useEffect(() => {
     fetchColetas();
   }, []);
@@ -102,7 +125,7 @@ function App() {
         </div>
       </div>
 
-      {/* Modal para Descrever e Enviar para "Lidos/Histórico" */}
+      {/* Modal para Descrever e Enviar para "Histórico" */}
       <Modal
         isOpen={isModalOpen}
         onRequestClose={handleModalClose}
@@ -210,6 +233,23 @@ function App() {
                 ))}
               </tbody>
             </table>
+          </div>
+          <div className='modal-footer'>
+            <button
+              className='btn btn-success me-2'
+              onClick={handleGenerateExcel}
+            >
+              Gerar Excel <i class='bi bi-file-earmark-spreadsheet'></i>
+            </button>
+            <button className='btn btn-danger me-2' onClick={handleGeneratePDF}>
+              Gerar PDF <i class='bi bi-filetype-pdf'></i>
+            </button>
+            <button
+              className='btn btn-secondary'
+              onClick={handleCloseHistorico}
+            >
+              Voltar <i class='bi bi-box-arrow-right'></i>
+            </button>
           </div>
         </div>
       </Modal>
