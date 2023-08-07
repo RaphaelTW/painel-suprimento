@@ -10,37 +10,39 @@ $username = "root";
 $password = "";
 $dbname = "viaexp72_api_usl_coleta";
 
-// Cria a conexão
-$conn = new mysqli($servername, $username, $password, $dbname);
+try {
+    // Cria a conexão usando PDO
+    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
 
-// Verifica a conexão
-if ($conn->connect_error) {
-  die("Erro na conexão com o banco de dados: " . $conn->connect_error);
-}
+    // Define o modo de erro do PDO para exceções
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-// Consulta os dados da tabela
-$sql = "SELECT id, taxed_weight FROM db_coletas WHERE taxed_weight > 50";
-$result = $conn->query($sql);
+    // Consulta os dados da tabela
+    $sql = "SELECT sequence_code, taxed_weight FROM db_coletas WHERE taxed_weight > 50";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
 
-// Verifica se existem dados
-if ($result->num_rows > 0) {
-  // Array para armazenar os resultados
-  $coletas = array();
+    // Define o modo de busca para retornar um array associativo
+    $stmt->setFetchMode(PDO::FETCH_ASSOC);
 
-  // Loop através dos resultados
-  while ($row = $result->fetch_assoc()) {
-    // Adiciona os dados ao array
-    $coletas[] = $row;
-  }
+    // Obtém os resultados
+    $coletas = $stmt->fetchAll();
 
-  // Converte o array para formato JSON
-  $json_coletas = json_encode($coletas);
+    // Verifica se existem dados
+    if (!empty($coletas)) {
+        // Converte o array para formato JSON
+        $json_coletas = json_encode($coletas);
 
-  // Retorna os dados
-  echo $json_coletas;
-} else {
-  echo "Nenhum dado encontrado.";
+        // Retorna os dados
+        echo $json_coletas;
+    } else {
+        echo "Nenhum dado encontrado.";
+    }
+} catch (PDOException $e) {
+    // Em caso de erro na conexão ou consulta, exibe a mensagem de erro
+    echo "Erro na conexão com o banco de dados: " . $e->getMessage();
 }
 
 // Fecha a conexão
-$conn->close();
+$conn = null;
+?>

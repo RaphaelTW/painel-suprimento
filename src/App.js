@@ -22,6 +22,7 @@ function App() {
   const [historico, setHistorico] = useState([]);
   const [showHistoricoModal, setShowHistoricoModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [itemDescriptionText, setItemDescriptionText] = useState(""); // Novo estado para o texto da descrição
 
   const handleAddItem = (item) => {
     setItems([...items, item]);
@@ -29,7 +30,7 @@ function App() {
 
   const handleItemDescription = (item) => {
     setSelectedItem(item);
-    setItemDescription({ description: "" }); // Limpar a descrição quando abrir o modal
+    setItemDescriptionText(item.description || ""); // Definir o texto da descrição
     setIsModalOpen(true);
   };
 
@@ -37,9 +38,9 @@ function App() {
     setIsModalOpen(false);
   };
 
-  const handleAddToHistorico = (item) => {
-    setHistorico([...historico, item]);
-    const updatedItems = items.filter((i) => i !== item);
+  const handleAddToHistorico = () => {
+    setHistorico([...historico, { ...selectedItem, description: itemDescriptionText }]);
+    const updatedItems = items.filter((i) => i !== selectedItem);
     setItems(updatedItems);
     setIsModalOpen(false); // Fechar o modal depois de enviar para o histórico
   };
@@ -56,13 +57,6 @@ function App() {
     fetchColetas();
   }, []);
 
-  const handleSendToHistorico = () => {
-    setHistorico([...historico, selectedItem]);
-    const updatedItems = items.filter((i) => i !== selectedItem);
-    setItems(updatedItems);
-    setIsModalOpen(false); // Fechar o modal depois de enviar para o histórico
-  };
-
   return (
     <Router>
       <div className='container'>
@@ -75,7 +69,7 @@ function App() {
             <thead>
               <tr>
                 <th class='negrito' scope='col'>
-                  <strong>Item</strong>
+                  <strong>Número Coleta</strong>
                 </th>
                 <th class='negrito' scope='col'>
                   <strong>Kg</strong>
@@ -87,8 +81,8 @@ function App() {
             </thead>
             <tbody>
               {items.map((data) => (
-                <tr className='houveTD' key={data.id}>
-                  <td>{data.id}</td>
+                <tr className='houveTD' key={data.sequence_code}>
+                  <td>{data.sequence_code}</td>
                   <td>{data.taxed_weight}</td>
                   <td>
                     <button
@@ -112,8 +106,8 @@ function App() {
         contentLabel='Descrição do Item'
         style={{
           content: {
-            maxWidth: "400px",
-            maxHeight: "300px",
+            maxWidth: "500px", //largura
+            maxHeight: "350px", //altura
             margin: "auto",
           },
           overlay: { backgroundColor: "rgba(0, 0, 0, 0.6)" },
@@ -134,20 +128,15 @@ function App() {
             {selectedItem && (
               <>
                 <p>
-                  <strong>Item:</strong> {selectedItem.id}
+                  <strong>Número Coleta:</strong> {selectedItem.sequence_code}
                 </p>
                 <p>
                   <strong>Kg:</strong> {selectedItem.taxed_weight}
                 </p>
                 <textarea
                   className='form-control'
-                  value={itemDescription.description || ""}
-                  onChange={(e) =>
-                    setItemDescription({
-                      ...itemDescription,
-                      description: e.target.value,
-                    })
-                  }
+                  value={itemDescriptionText}
+                  onChange={(e) => setItemDescriptionText(e.target.value)}
                 />
               </>
             )}
@@ -157,9 +146,9 @@ function App() {
               <>
                 <button
                   className='btn btn-primary me-2'
-                  onClick={handleSendToHistorico}
+                  onClick={handleAddToHistorico}
                 >
-                  Enviar para Lidos
+                  Enviar para Histórico
                 </button>
                 <button className='btn btn-danger' onClick={handleModalClose}>
                   Fechar
@@ -197,10 +186,13 @@ function App() {
             {historico.map((item, index) => (
               <div key={index}>
                 <p>
-                  <strong>Item:</strong> {item.id}
+                  <strong>Número Coleta:</strong> {item.sequence_code}
                 </p>
                 <p>
                   <strong>Kg:</strong> {item.taxed_weight}
+                </p>
+                <p>
+                  <strong>Descrição:</strong> {item.description}
                 </p>
               </div>
             ))}
