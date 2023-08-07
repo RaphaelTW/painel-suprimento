@@ -87,7 +87,9 @@ function App() {
     <Router>
       <div className='container'>
         <h1 className='my-4'>Painel Suprimentos</h1>
-        <button className='btn btn-primary' onClick={handleShowHistorico}>
+        <button className='btn btn-primary' data-bs-toggle="tooltip" data-bs-placement="top"
+        data-bs-custom-class="custom-tooltip"
+        data-bs-title="Aceso para ver o Histórico." onClick={handleShowHistorico}>
           Histórico
         </button>
         <div className='row table-responsive custom-table-responsive'>
@@ -112,7 +114,7 @@ function App() {
                   <td>{data.taxed_weight}</td>
                   <td>
                     <button
-                      className='btn btn-primary btn-acao'
+                      className='btn btn-primary btn-acao' 
                       onClick={() => handleItemDescription(data)}
                     >
                       <i className='bi bi-eye olhos'></i>

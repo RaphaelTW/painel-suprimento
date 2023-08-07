@@ -1,22 +1,7 @@
-.App {
-  text-align: center;
-}
-
 .body {
   padding: 8px;
   background-color: #e7e7e7;
   border-radius: 2px;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
 .btn-modal {
@@ -106,7 +91,6 @@ table {
 
 .custom-table tbody th small,
 .custom-table tbody td small {
-  color: var(--cor-laranja3) !important;
   font-weight: 300 !important;
 }
 
@@ -125,7 +109,7 @@ table {
 
 .custom-table tbody tr th,
 .custom-table tbody tr td {
-  background: var(--cor-de-fundo) !important;
+  background: #e6e6e6 !important;
   border: none !important;
 }
 
@@ -168,24 +152,5 @@ table {
 }
 
 .btn-acao:hover {
-  background-color: rgb(9, 204, 230) !important;
-}
-
-.olhos:hover {
-  color: black !important;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  background-color: #5b81e9 !important;
 }
