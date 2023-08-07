@@ -167,6 +167,14 @@ table {
   background-color: #a9a9a9 !important;
 }
 
+.btn-acao:hover {
+  background-color: rgb(9, 204, 230) !important;
+}
+
+.olhos:hover {
+  color: black !important;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;

@@ -39,7 +39,10 @@ function App() {
   };
 
   const handleAddToHistorico = () => {
-    setHistorico([...historico, { ...selectedItem, description: itemDescriptionText }]);
+    setHistorico([
+      ...historico,
+      { ...selectedItem, description: itemDescriptionText },
+    ]);
     const updatedItems = items.filter((i) => i !== selectedItem);
     setItems(updatedItems);
     setIsModalOpen(false); // Fechar o modal depois de enviar para o histórico
@@ -86,10 +89,10 @@ function App() {
                   <td>{data.taxed_weight}</td>
                   <td>
                     <button
-                      className='btn btn-primary'
+                      className='btn btn-primary btn-acao'
                       onClick={() => handleItemDescription(data)}
                     >
-                      <i className='bi bi-eye'></i>
+                      <i className='bi bi-eye olhos'></i>
                     </button>
                   </td>
                 </tr>
@@ -166,8 +169,8 @@ function App() {
         contentLabel='Histórico de Itens'
         style={{
           content: {
-            maxWidth: "600px",
-            maxHeight: "400px",
+            maxWidth: "1200px", // largura
+            maxHeight: "800px", // altura
             margin: "auto",
           },
           overlay: { backgroundColor: "rgba(0, 0, 0, 0.6)" },
@@ -183,19 +186,30 @@ function App() {
             ></button>
           </div>
           <div className='modal-body'>
-            {historico.map((item, index) => (
-              <div key={index}>
-                <p>
-                  <strong>Número Coleta:</strong> {item.sequence_code}
-                </p>
-                <p>
-                  <strong>Kg:</strong> {item.taxed_weight}
-                </p>
-                <p>
-                  <strong>Descrição:</strong> {item.description}
-                </p>
-              </div>
-            ))}
+            <table className='table table-striped'>
+              <thead>
+                <tr>
+                  <th>
+                    <strong>Número Coleta</strong>
+                  </th>
+                  <th>
+                    <strong>Kg</strong>
+                  </th>
+                  <th>
+                    <strong>Descrição</strong>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {historico.map((item, index) => (
+                  <tr key={index}>
+                    <td>{item.sequence_code}</td>
+                    <td>{item.taxed_weight}</td>
+                    <td>{item.description}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       </Modal>
